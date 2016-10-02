@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.5)
+project(TextEditor)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build")
+set(SOURCE_FILES src/main.c)
+add_executable(TextEditor ${SOURCE_FILES})
+set(CURSES_NEED_NCURSES TRUE)
+find_package(Curses REQUIRED)
+if (CURSES_FOUND AND CURSES_HAVE_NCURSES_H)
+    include_directories(${CURSES_INCLUDE_DIR})
+    target_link_libraries (TextEditor ${CURSES_LIBRARIES})
+endif()
