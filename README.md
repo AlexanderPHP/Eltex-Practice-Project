@@ -1,2 +1,1 @@
-# libCalc
-Calculator with dynamically loading functions
+# Eltex Practice
