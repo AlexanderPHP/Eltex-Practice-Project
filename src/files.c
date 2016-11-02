@@ -1,8 +1,8 @@
 #include "files.h"
 int dirsortbyname(const void *d1, const void *d2)
 {
-    const struct file_info *a = *(struct file_info **)d1;
-    const struct file_info *b = *(struct file_info **)d2;
+    const file_info *a = *(file_info **)d1;
+    const file_info *b = *(file_info **)d2;
     if(S_ISDIR(a->mode))
     {
         if(S_ISDIR(b->mode))
@@ -16,7 +16,7 @@ int dirsortbyname(const void *d1, const void *d2)
         return strcmp(a->name, b->name);
 }
 
-int scan_dir(const char *dirname, struct file_info ***namelist, int (*compar)(const void *, const void *))
+int scan_dir(const char *dirname, file_info ***namelist, int (*compar)(const void *, const void *))
 {
     DIR *dirp;
     if ((dirp = opendir(dirname)) == NULL)
@@ -26,7 +26,7 @@ int scan_dir(const char *dirname, struct file_info ***namelist, int (*compar)(co
     char filepath[PATH_MAX];
     char dir[NAME_MAX+1];
     strncpy(filepath, dirname, PATH_MAX);
-    struct file_info **names = NULL;
+    file_info **names = NULL;
     struct dirent *d;
     struct stat stb;
     while((d = readdir(dirp)) != NULL)
@@ -38,12 +38,12 @@ int scan_dir(const char *dirname, struct file_info ***namelist, int (*compar)(co
                 vsize = 10;
             else
                 vsize *= 2;
-            struct file_info **newv = (struct file_info **)realloc(names, vsize * sizeof(struct file_info *));
+            file_info **newv = realloc(names, vsize * sizeof(file_info *));
             if(newv == NULL)
                 goto fail;
             names = newv;
         }
-        struct file_info *p = (struct file_info *)malloc(sizeof(struct file_info));
+        file_info *p = malloc(sizeof(file_info));
         if(p == NULL)
             goto fail;
         strncat(filepath, "/", 1);
@@ -63,7 +63,7 @@ int scan_dir(const char *dirname, struct file_info ***namelist, int (*compar)(co
     }
     closedir(dirp);
     if(result && compar != NULL)
-        qsort(names, (size_t)result, sizeof(struct file_info *), compar);
+        qsort(names, (size_t)result, sizeof(file_info *), compar);
     *namelist = names;
     return result;
     fail:

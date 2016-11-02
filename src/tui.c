@@ -42,13 +42,13 @@ int tui_init(void)
     return 0;
 }
 
-void tui_del_win(cursed *win)
+void tui_del_win(tab_window *win)
 {
     del_panel(win->panel);
     free(win);
 }
 
-void tui_destroy_menu (cursed *win)
+void tui_destroy_menu (tab_window *win)
 {
     unpost_menu(win->menu);
     free_menu(win->menu);
@@ -61,7 +61,7 @@ void tui_destroy_menu (cursed *win)
     free(win->str_items);
 }
 
-void tui_make_menu (cursed *win, void (on_item_selected)(cursed *))
+void tui_make_menu (tab_window *win, void (on_item_selected)(tab_window *))
 {
     struct tm * timeifo;
     int tabwidth = COLS / 2 - 1;
@@ -102,9 +102,9 @@ void tui_make_menu (cursed *win, void (on_item_selected)(cursed *))
     post_menu(win->menu);
 }
 
-cursed *tui_new_win(int sy, int sx, int h, int w, char *label, int bckg)
+tab_window *tui_new_win(int sy, int sx, int h, int w, char *label, int bckg)
 {
-    cursed *new = malloc (sizeof *new);
+    tab_window *new = malloc (sizeof *new);
     new->decoration = newwin(h, w, sy, sx);
     wbkgd(new->decoration, COLOR_PAIR(bckg));
     wborder(new->decoration, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER,

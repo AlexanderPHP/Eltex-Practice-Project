@@ -6,7 +6,7 @@
 #include "tui.h"
 #include "files.h"
 
-void on_item_selected(cursed *win)
+void on_item_selected(tab_window *win)
 {
     char item[NAME_MAX];
     int n;
@@ -20,9 +20,8 @@ void on_item_selected(cursed *win)
     }
     else
     {
-        strncat(win->path, item, NAME_MAX);
-        if(!S_ISDIR(win->files[item_index(current_item(win->menu))]->mode))
-            strncat(win->path, "/", 1);
+        if(S_ISDIR(win->files[item_index(current_item(win->menu))]->mode))
+            strncat(win->path, item, NAME_MAX);
     }
     mvwhline(win->decoration, 1, 1, ' ', getmaxx(win->decoration) - 2);
 
@@ -48,6 +47,8 @@ void on_item_selected(cursed *win)
         win->items_num = n;
         tui_make_menu(win, on_item_selected);
     }
+
+
 }
 
 int main(void)
@@ -57,11 +58,11 @@ int main(void)
         puts("error");
         return 1;
     }
-    cursed *ltab;
-    cursed *rtab;
+    tab_window *ltab;
+    tab_window *rtab;
     int ch;
-    void (*p)(cursed *);
-    cursed *active_tab;
+    void (*p)(tab_window *);
+    tab_window *active_tab;
     ltab = tui_new_win(0, 0, LINES, COLS / 2 , " ", 2);
     rtab = tui_new_win(0, COLS / 2, LINES, COLS / 2, " ", 2);
 
@@ -92,7 +93,7 @@ int main(void)
         switch (ch)
         {
             case '\t':
-                active_tab = (cursed *) panel_userptr(active_tab->panel);
+                active_tab = (tab_window *) panel_userptr(active_tab->panel);
                 top_panel(active_tab->panel);
                 break;
             case KEY_DOWN:
@@ -115,7 +116,7 @@ int main(void)
                 break;
 
             case 13: // enter
-                p = (void (*)(cursed *))(uintptr_t)item_userptr(current_item(active_tab->menu));
+                p = (void (*)(tab_window *))(uintptr_t)item_userptr(current_item(active_tab->menu));
                 p(active_tab);
                 break;
             default:break;
