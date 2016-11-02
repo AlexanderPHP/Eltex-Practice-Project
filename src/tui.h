@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
+#include <time.h>
 
 struct _cursed_window
 {
