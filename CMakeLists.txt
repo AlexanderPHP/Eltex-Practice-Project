@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(TextEditor)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -std=c11")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -std=c11 -O0 -g")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build")
 set(SOURCE_FILES src/main.c src/tui.c)
 add_executable(TextEditor ${SOURCE_FILES})
