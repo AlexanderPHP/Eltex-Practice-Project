@@ -1,5 +1,5 @@
 #include <time.h>
-#include "global.h"
+#include "tui.h"
 void get_bytes_readable( char *readablesize, size_t bufsize, long filesize)
 {
     const char *sizes[] = { "B", "K", "M", "G" };

@@ -1,4 +1,11 @@
-#include "global.h"
+#define _GNU_SOURCE
+
+#include <stdlib.h>
+#include <string.h>
+#include <dirent.h>
+#include <sys/stat.h>
+
+#include "tui.h"
 
 int dirsortbyname(const void *d1, const void *d2)
 {
@@ -124,7 +131,8 @@ int main(void)
         puts("error");
         return 1;
     }
-
+    cursed *ltab;
+    cursed *rtab;
     int ch;
     void (*p)(cursed *);
     cursed *active_tab;

@@ -1,12 +1,13 @@
 #ifndef TUI
 #define TUI
+
 #include <panel.h>
-#include <form.h>
 #include <menu.h>
 #include <linux/limits.h>
-#include <dirent.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <string.h>
+
 struct _cursed_window
 {
     WINDOW *decoration;
