@@ -14,4 +14,5 @@
 
 int dirsortbyname(const void *d1, const void *d2);
 int scan_dir(const char *dirname, file_info ***namelist, int (*compar)(const void *, const void *));
+void get_bytes_readable( char *readablesize, size_t bufsize, long filesize);
 #endif //TEXTEDITOR_FILES_H

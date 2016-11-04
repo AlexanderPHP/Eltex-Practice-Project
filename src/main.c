@@ -12,59 +12,46 @@ void on_item_selected(tab_window *win)
     int n;
 
     strncpy(item, win->files[item_index(current_item(win->menu))]->name, NAME_MAX);
-    if(strncmp(item, "/.", NAME_MAX) == 0) return;
-    if(strncmp(item, "/..", NAME_MAX) == 0 && strncmp(win->path, "/", PATH_MAX) != 0)
-    {
-        memset(&win->path[strlen(win->path) - 1], '\0', 1);
-        memset(&win->path[strrchr(win->path, '/') - win->path], '\0', 1); //don't ask about it...
-    }
-    else
-    {
-        if(S_ISDIR(win->files[item_index(current_item(win->menu))]->mode))
-            strncat(win->path, item, NAME_MAX);
-    }
-    mvwhline(win->decoration, 1, 1, ' ', getmaxx(win->decoration) - 2);
-
-    if(strlen(win->path) > (size_t)COLS / 2 - 5)
-        mvwprintw(win->decoration, 1, 1, "...%s", win->path + strlen(win->path) - COLS / 2 + 5);
-    else
-        mvwprintw(win->decoration, 1, 1, "%s", win->path);
+    if(!strncmp(item, "/.", NAME_MAX))
+        return;
+    if(!strncmp(item, "/..", NAME_MAX))
+        memset(&win->path[strrchr(win->path, '/') - win->path], '\0', 1);
+    else if(S_ISDIR(win->files[item_index(current_item(win->menu))]->mode))
+        strncat(win->path, item, NAME_MAX);
 
     if(!strcmp(win->path, ""))
         strncat(win->path, "/", 1);
 
     n = scan_dir(win->path, &win->files, dirsortbyname);
-    if (n < 0)
+    mvwhline(win->decoration, 1, 1, ' ', getmaxx(win->decoration) - 2);
+    if (n >= 0)
     {
-        mvwhline(win->decoration, 1, 1, ' ', getmaxx(win->decoration) - 2);
-        mvwprintw(win->decoration, 1, 1, "%s", "Permission denied or not a directory!");
-        memset(&win->path[strlen(win->path) - 1], '\0', 1);
-        memset(&win->path[strrchr(win->path, '/') - win->path + 1], '\0', 1); //don't ask about it...
-    }
-    else
-    {
+        if(strlen(win->path) > (size_t)COLS / 2 - 5)
+            mvwprintw(win->decoration, 1, 1, "...%s", win->path + strlen(win->path) - COLS / 2 + 5);
+        else
+            mvwprintw(win->decoration, 1, 1, "%s", win->path);
         tui_destroy_menu(win);
         win->items_num = n;
         tui_make_menu(win, on_item_selected);
     }
-
-
+    else
+    {
+        mvwprintw(win->decoration, 1, 1, "Permission denied!");
+        memset(&win->path[strrchr(win->path, '/') - win->path + 1], '\0', 1);
+    }
 }
 
 int main(void)
 {
-    if ( tui_init( ))
-    {
-        puts("error");
-        return 1;
-    }
+    tui_init();
+
     tab_window *ltab;
     tab_window *rtab;
     int ch;
     void (*p)(tab_window *);
     tab_window *active_tab;
-    ltab = tui_new_win(0, 0, LINES, COLS / 2 , " ", 2);
-    rtab = tui_new_win(0, COLS / 2, LINES, COLS / 2, " ", 2);
+    ltab = tui_new_win(0, 0, LINES, COLS / 2 , 2);
+    rtab = tui_new_win(0, COLS / 2, LINES, COLS / 2, 2);
 
     mvwprintw(ltab->decoration, 1,1, "/");
     mvwprintw(rtab->decoration, 1,1, "/");

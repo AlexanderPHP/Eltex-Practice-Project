@@ -73,3 +73,15 @@ int scan_dir(const char *dirname, file_info ***namelist, int (*compar)(const voi
     closedir(dirp);
     return -1;
 }
+
+void get_bytes_readable( char *readablesize, size_t bufsize, long filesize)
+{
+    const char *sizes[] = { "B", "K", "M", "G" };
+    double len = filesize;
+    int order = 0;
+    while (len >= 1000 && ++order < 4)
+    {
+        len = len / 1000;
+    }
+    snprintf(readablesize, bufsize, "%.5g%s", len, sizes[order]); //segfault if fsize greater then 1TB
+}

@@ -30,10 +30,9 @@ typedef struct _tab_window
 } tab_window;
 
 
-int tui_init(void);
-tab_window *tui_new_win(int sy, int sx, int h, int w, char *label, int bckg);
+void tui_init();
+tab_window *tui_new_win(int sy, int sx, int h, int w, int bckg);
 void tui_del_win(tab_window *win);
-void tui_win_label(WINDOW *win, char *string, int attrib);
 void tui_make_menu (tab_window *win, void (on_item_selected)(tab_window *));
 void tui_destroy_menu (tab_window *win);
 #endif
