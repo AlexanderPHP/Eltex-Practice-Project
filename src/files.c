@@ -24,7 +24,6 @@ int scan_dir(const char *dirname, file_info ***namelist, int (*compar)(const voi
     int result = 0;
     int vsize = 0;
     char filepath[PATH_MAX];
-    char dir[NAME_MAX+1];
     strncpy(filepath, dirname, PATH_MAX);
     file_info **names = NULL;
     struct dirent *d;
@@ -59,7 +58,6 @@ int scan_dir(const char *dirname, file_info ***namelist, int (*compar)(const voi
         p->last_mod = stb.st_mtim;
         names[result++] = p;
         memset(&filepath[strlen(dirname)], '\0', 1);
-        memset(&dir, '\0', 1);
     }
     closedir(dirp);
     if(result && compar != NULL)
