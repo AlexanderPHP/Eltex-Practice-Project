@@ -1,5 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/
-FileManager/build/
-FileManager/cmake-build-debug/
-IPC-Chat/cmake-build-debug/
+*/.idea/
+*/cmake-build-debug/
+*/build/
