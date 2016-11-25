@@ -52,5 +52,5 @@ void remove_item(tab_window *win)
 
 void rename_item(tab_window *win)
 {
-
+    return;
 }

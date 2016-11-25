@@ -137,7 +137,6 @@ char *tui_make_input(int32_t max_len)
     set_field_back(field[0], COLOR_PAIR(2) | A_UNDERLINE);
     field_opts_off(field[0], O_AUTOSKIP); /* Don't go to next field when this */
 
-
     /* Create the form and post it */
     my_form = new_form(field);
     set_form_sub(my_form, neww->overlay);
