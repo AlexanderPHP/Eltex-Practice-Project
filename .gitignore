@@ -2,3 +2,4 @@
 .idea/
 FileManager/build/
 FileManager/cmake-build-debug/
+IPC-Chat/cmake-build-debug/
