@@ -1,4 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
-*/.idea/
-*/cmake-build-debug/
-*/build/
+.idea
+cmake-build-debug
+build
