@@ -31,7 +31,7 @@ int main(size_t sockaddr_len) {
     exit(-1);
   }
 
-  sprintf(message, "Hello, broadcast World!");
+  sprintf(message, "Hello, Broadcast World!");
 
   if (sendto(sockfd, message, MSG_SIZE, 0, (struct sockaddr *) &broadcast_addr, sizeof(struct sockaddr_in)) < 0) {
     perror("Sendto error");
