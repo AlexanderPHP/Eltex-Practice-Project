@@ -2,3 +2,12 @@
 */.idea/
 */cmake-build-debug/
 */build/
+
+*.swp
+*.ko
+*.o
+*.symvers
+*.order
+*.mod.*
+*.swo
+*/.tmp_versions/*
